@@ -7,6 +7,11 @@
         <strong>Followers: </strong>{{ followers }}
       </div>
     </div>
+    <div class="user-profile__posts-wrapper">
+      <div class="user-profile__post" v-for="post in user.posts" :key="post.id">
+        {{ post.content }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,6 +28,10 @@ export default {
         lastName: 'Bbbbb',
         email: 'aaaaabbbbb@gmail.com',
         isAdmin: true,
+        posts: [
+          {id: 1, content: 'Here is first post.'},
+          {id: 2, content: 'Second post here we go.'}
+        ]
       }
     }
   },
