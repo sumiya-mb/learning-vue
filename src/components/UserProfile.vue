@@ -8,16 +8,22 @@
       </div>
     </div>
     <div class="user-profile__posts-wrapper">
-      <div class="user-profile__post" v-for="post in user.posts" :key="post.id">
-        {{ post.content }}
-      </div>
+      <PostItem
+        v-for="post in user.posts"
+        :key="post.id"
+        :username="user.username"
+        :post="post"
+        @favorite="toggleFavorite"/>
     </div>
   </div>
 </template>
 
 <script>
+import PostItem from "@/components/Postitem";
+
 export default {
   name: 'UserProfile',
+  components: {PostItem},
   data() {
     return {
       followers: 0,
@@ -50,6 +56,9 @@ export default {
   methods: {
     followUser() {
       this.followers++;
+    },
+    toggleFavorite(id) {
+      console.log(`Favorite post ${id}`)
     }
   },
   mounted() {
@@ -84,6 +93,12 @@ export default {
   margin-right: auto;
   padding: 0 10px;
   font-weight: bold;
+}
+
+.user-profile__posts-wrapper {
+  display: grid;
+  grid-gap: 10px;
+  margin-bottom: auto;
 }
 
 h1 {
