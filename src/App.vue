@@ -36,11 +36,13 @@ export default {
       return `${this.user.firstName} ${this.user.lastName}`
     }
   },
+  // A method is just a function bound to the Vue instance. It will only be evaluated when you explicitly call it. You use methods to react to events which happen in the DOM, or you can call them from elsewhere within your component
   methods: {
     followUser() {
       this.followers++;
     }
   },
+  // Run once when the component is mounted
   mounted() {
     console.log('Page mounted')
     this.followUser();
