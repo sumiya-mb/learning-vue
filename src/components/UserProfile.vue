@@ -6,8 +6,9 @@
       <div class="user-profile__follower-count">
         <strong>Followers: </strong>{{ followers }}
       </div>
-      <form class="user-profile__create-post" @submit.prevent="createNewPost">
-        <label for="newPost"><strong>New Post</strong></label>
+      <form class="user-profile__create-post" @submit.prevent="createNewPost"
+            :class="{'--exceeded':newPostCharacterCount > 180}">
+        <label for="newPost"><strong>New Post</strong> ({{ newPostCharacterCount }}/180)</label>
         <textarea name="" id="newPost" rows="4" v-model="newPostContent"></textarea>
         <div class="user-profile__create-post-type">
           <label for="newPostType"><strong>Type: </strong></label>
@@ -69,8 +70,8 @@ export default {
     }
   },
   computed: {
-    fullName() {
-      return `${this.user.firstName} ${this.user.lastName}`
+    newPostCharacterCount() {
+      return this.newPostContent.length;
     }
   },
   methods: {
@@ -97,49 +98,65 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
   padding: 50px 5%;
+
+  .user-profile__user-panel {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #DFE3E8;
+
+    .user-profile__admin-badge {
+      background: rebeccapurple;
+      color: white;
+      border-radius: 5px;
+      margin-right: auto;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .user-profile__create-post {
+    margin-top: 10px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+
+    &.--exceeded {
+      color: red;
+      border-color: red;
+
+      button {
+        background-color: red;
+        border: none;
+        color: white;
+      }
+    }
+  }
+
+  .user-profile__posts-wrapper {
+    display: grid;
+    grid-gap: 10px;
+    margin-bottom: auto;
+  }
 }
 
-.user-profile__user-panel {
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #DFE3E8;
-}
-
-.user-profile__admin-badge {
-  background: rebeccapurple;
-  color: white;
-  border-radius: 5px;
-  margin-right: auto;
-  padding: 0 10px;
-  font-weight: bold;
-}
-
-.user-profile__posts-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  margin-bottom: auto;
-}
-
-.user-profile__create-post {
-  border-top: 1px solid #DFE3E8;
-  margin-top: 10px;
-  padding-top: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-
-h1 {
-  margin: 0;
-}
 </style>
+
+
+
+
+
+
