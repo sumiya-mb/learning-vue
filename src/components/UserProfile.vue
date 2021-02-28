@@ -6,18 +6,19 @@
       <div class="user-profile__follower-count">
         <strong>Followers: </strong>{{ followers }}
       </div>
-      <div class="user-profile__create-post">
+      <form class="user-profile__create-post" @submit.prevent="createNewPost">
         <label for="newPost"><strong>New Post</strong></label>
-        <textarea name="" id="newPost" rows="4"></textarea>
+        <textarea name="" id="newPost" rows="4" v-model="newPostContent"></textarea>
         <div class="user-profile__create-post-type">
           <label for="newPostType"><strong>Type: </strong></label>
-          <select name="" id="newPostType">
+          <select name="" id="newPostType" v-model="selectedPostType">
             <option :value="option.value" v-for="(option, index) in postTypes" :key="index">
               {{ option.name }}
             </option>
           </select>
         </div>
-      </div>
+        <button>Post</button>
+      </form>
     </div>
 
     <div class="user-profile__posts-wrapper">
@@ -39,6 +40,8 @@ export default {
   components: {PostItem},
   data() {
     return {
+      newPostContent: '',
+      selectedPostType: 'instant',
       postTypes: [
         {value: 'draft', name: 'Draft'},
         {value: 'instant', name: 'Instant'}
@@ -76,6 +79,15 @@ export default {
     },
     toggleFavorite(id) {
       console.log(`Favorite post ${id}`)
+    },
+    createNewPost() {
+      if (this.newPostContent && this.selectedPostType !== 'draft') {
+        this.user.posts.unshift({
+          id: this.user.posts.length + 1,
+          content: this.newPostContent
+        })
+      }
+      this.newPostContent = ''
     }
   },
   mounted() {
