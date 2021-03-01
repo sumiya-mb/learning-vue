@@ -1,5 +1,5 @@
 <template>
-  <div class="post-item" @click="favoritePost(post.id)">
+  <div class="post-item">
     <div class="user-profile__post">
       <div class="post-item__user">
         @{{ username }}
@@ -24,11 +24,6 @@ export default {
       required: true
     }
   },
-  methods: {
-    favoritePost(id) {
-      this.$emit('favorite', id)
-    }
-  }
 }
 </script>
 
@@ -42,6 +37,7 @@ export default {
   cursor: pointer;
   transition: all .25s ease;
   max-width: 700px;
+
   &:hover {
     transform: scale(1.1, 1.1);
   }
