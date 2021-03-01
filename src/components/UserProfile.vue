@@ -6,19 +6,7 @@
       <div class="user-profile__follower-count">
         <strong>Followers: </strong>{{ followers }}
       </div>
-      <form class="user-profile__create-post" @submit.prevent="createNewPost">
-        <label for="newPost"><strong>New Post</strong></label>
-        <textarea name="" id="newPost" rows="4" v-model="newPostContent"></textarea>
-        <div class="user-profile__create-post-type">
-          <label for="newPostType"><strong>Type: </strong></label>
-          <select name="" id="newPostType" v-model="selectedPostType">
-            <option :value="option.value" v-for="(option, index) in postTypes" :key="index">
-              {{ option.name }}
-            </option>
-          </select>
-        </div>
-        <button>Post</button>
-      </form>
+      <CreatePostPanel/>
     </div>
 
     <div class="user-profile__posts-wrapper">
@@ -34,18 +22,13 @@
 
 <script>
 import PostItem from "@/components/Postitem";
+import CreatePostPanel from "@/components/CreatePostPanel";
 
 export default {
   name: 'UserProfile',
-  components: {PostItem},
+  components: {CreatePostPanel, PostItem},
   data() {
     return {
-      newPostContent: '',
-      selectedPostType: 'instant',
-      postTypes: [
-        {value: 'draft', name: 'Draft'},
-        {value: 'instant', name: 'Instant'}
-      ],
       followers: 0,
       user: {
         id: 1,
@@ -68,28 +51,6 @@ export default {
       }
     }
   },
-  computed: {
-    fullName() {
-      return `${this.user.firstName} ${this.user.lastName}`
-    }
-  },
-  methods: {
-    followUser() {
-      this.followers++;
-    },
-    toggleFavorite(id) {
-      console.log(`Favorite post ${id}`)
-    },
-    createNewPost() {
-      if (this.newPostContent && this.selectedPostType !== 'draft') {
-        this.user.posts.unshift({
-          id: this.user.posts.length + 1,
-          content: this.newPostContent
-        })
-      }
-      this.newPostContent = ''
-    }
-  },
   mounted() {
     console.log('Page mounted')
     this.followUser();
@@ -97,49 +58,46 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  width: 100%;
+  grid-gap: 50px;
   padding: 50px 5%;
-}
 
-.user-profile__user-panel {
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #DFE3E8;
-}
+  .user-profile__user-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #DFE3E8;
+    margin-bottom: auto;
 
-.user-profile__admin-badge {
-  background: rebeccapurple;
-  color: white;
-  border-radius: 5px;
-  margin-right: auto;
-  padding: 0 10px;
-  font-weight: bold;
-}
+    h1 {
+      margin: 0;
+    }
 
-.user-profile__posts-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  margin-bottom: auto;
-}
+    .user-profile__admin-badge {
+      background: rebeccapurple;
+      color: white;
+      border-radius: 5px;
+      margin-right: auto;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+  }
 
-.user-profile__create-post {
-  border-top: 1px solid #DFE3E8;
-  margin-top: 10px;
-  padding-top: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-
-h1 {
-  margin: 0;
+  .user-profile__posts-wrapper {
+    display: grid;
+    grid-gap: 10px;
+    margin-bottom: auto;
+  }
 }
 </style>
+
+
+
+
+
+
