@@ -1,52 +1,67 @@
 <template>
-  <form class="create-post-panel" @submit.prevent="createNewPost"
-        :class="{'--exceeded':newPostCharacterCount > 180}">
-    <label for="newPost"><strong>New Post</strong> ({{ newPostCharacterCount }}/180)</label>
-    <textarea name="" id="newPost" rows="4" v-model="newPostContent"></textarea>
+  <form
+    class="create-post-panel"
+    @submit.prevent="createNewPost"
+    :class="{ '--exceeded': newPostCharacterCount > 180 }"
+  >
+    <label for="newPost"
+      ><strong>New Post</strong> ({{ newPostCharacterCount }}/180)</label
+    >
+    <textarea
+      name=""
+      id="newPost"
+      rows="4"
+      v-model="state.newPostContent"
+    ></textarea>
 
     <div class="create-post-panel__submit">
-      <div class="ccreate-post-type">
+      <div class="create-post-type">
         <label for="newPostType"><strong>Type: </strong></label>
-        <select name="" id="newPostType" v-model="selectedPostType">
-          <option :value="option.value" v-for="(option, index) in postTypes" :key="index">
+        <select name="" id="newPostType" v-model="state.selectedPostType">
+          <option
+            :value="option.value"
+            v-for="(option, index) in state.postTypes"
+            :key="index"
+          >
             {{ option.name }}
           </option>
         </select>
       </div>
 
       <button>Post</button>
-
     </div>
   </form>
 </template>
 
 <script>
+import { reactive, computed } from 'vue'
+
 export default {
   name: 'CreatePostPanel',
-  data() {
-    return {
+  setup(_, ctx) {
+    const state = reactive({
       newPostContent: '',
       selectedPostType: 'instant',
       postTypes: [
-        {value: 'draft', name: 'Draft'},
-        {value: 'instant', name: 'Instant'}
-      ],
-    }
-  },
-  computed: {
-    newPostCharacterCount() {
-      return this.newPostContent.length;
-    }
-  },
-  methods: {
-    createNewPost() {
-      if (this.newPostContent && this.selectedPostType !== 'draft') {
-        this.user.posts.unshift({
-          id: this.user.posts.length + 1,
-          content: this.newPostContent
-        })
+        { value: 'draft', name: 'Draft' },
+        { value: 'instant', name: 'Instant' }
+      ]
+    })
+
+    const newPostCharacterCount = computed(() => state.newPostContent.length)
+
+    function createNewPost() {
+      if (state.newPostContent && state.selectedPostType !== 'draft') {
+        ctx.emit('add-post', state.newPostContent)
+        state.newPostContent = ''
       }
-      this.newPostContent = ''
+      state.newPostContent = ''
+    }
+
+    return {
+      state,
+      newPostCharacterCount,
+      createNewPost
     }
   },
 }
@@ -60,7 +75,7 @@ export default {
   flex-direction: column;
 
   textarea {
-    border: 1px solid #DFE3E8;
+    border: 1px solid #dfe3e8;
     border-radius: 5px;
     margin-bottom: 10px;
   }
