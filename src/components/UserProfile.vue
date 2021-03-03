@@ -6,7 +6,7 @@
       <div class="user-profile__follower-count">
         <strong>Followers: </strong>{{ followers }}
       </div>
-      <CreatePostPanel/>
+      <CreatePostPanel @add-post="addPost" />
     </div>
 
     <div class="user-profile__posts-wrapper">
@@ -15,18 +15,19 @@
         :key="post.id"
         :username="user.username"
         :post="post"
-        @favorite="toggleFavorite"/>
+        @favorite="toggleFavorite"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import PostItem from "@/components/Postitem";
-import CreatePostPanel from "@/components/CreatePostPanel";
+import PostItem from '@/components/Postitem'
+import CreatePostPanel from '@/components/CreatePostPanel'
 
 export default {
   name: 'UserProfile',
-  components: {CreatePostPanel, PostItem},
+  components: { CreatePostPanel, PostItem },
   data() {
     return {
       followers: 0,
@@ -38,8 +39,8 @@ export default {
         email: 'aaaaabbbbb@gmail.com',
         isAdmin: true,
         posts: [
-          {id: 1, content: 'Here is first post.'},
-          {id: 2, content: 'Second post here we go.'}
+          { id: 1, content: 'Here is first post.' },
+          { id: 2, content: 'Second post here we go.' }
         ]
       }
     }
@@ -51,9 +52,17 @@ export default {
       }
     }
   },
+  methods: {
+    addPost(post) {
+      this.user.posts.unshift({
+        id: this.user.posts.length + 1,
+        content: post
+      })
+    }
+  },
   mounted() {
     console.log('Page mounted')
-    this.followUser();
+    this.followUser()
   }
 }
 </script>
@@ -71,7 +80,7 @@ export default {
     padding: 20px;
     background-color: white;
     border-radius: 5px;
-    border: 1px solid #DFE3E8;
+    border: 1px solid #dfe3e8;
     margin-bottom: auto;
 
     h1 {
