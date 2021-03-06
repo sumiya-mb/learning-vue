@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store'
-import { users } from '../assets/users'
 import Home from '../views/Home.vue'
-import UserProfile from '../views/UserProfile'
-import Admin from '../views/Admin'
+import UserProfile from '../views/UserProfile.vue'
+
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/user/:userId',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 

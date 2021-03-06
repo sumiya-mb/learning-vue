@@ -1,27 +1,21 @@
 <template>
   <nav>
     <router-link to="/">
-      <div class="navigation__logo">
-        Twitter clone
-      </div>
+      <div class="navigation__logo">Twitter clone</div>
     </router-link>
     <div class="navigation__user" v-if="user">
       {{ user.username }}
     </div>
   </nav>
-  <UserProfile/>
+  <router-view />
 </template>
 
 <script>
-
-import UserProfile from "@/components/UserProfile";
-
 export default {
   name: 'App',
-  components: {UserProfile},
-  data(){
-    return{
-      user:{
+  data() {
+    return {
+      user: {
         username: '_ThisIsFake'
       }
     }

@@ -1,8 +1,10 @@
 <template>
   <div class="user-profile">
     <div class="user-profile__user-panel">
-      <h1 class="user-profile__username">@{{ user.username }}</h1>
-      <div class="user-profile__admin-badge" v-if="user.isAdmin">Admin</div>
+      <h1 class="user-profile__username">@{{ state.user.username }}</h1>
+      <div class="user-profile__admin-badge" v-if="state.user.isAdmin">
+        Admin
+      </div>
       <div class="user-profile__follower-count">
         <strong>Followers: </strong>{{ followers }}
       </div>
@@ -11,9 +13,9 @@
 
     <div class="user-profile__posts-wrapper">
       <PostItem
-        v-for="post in user.posts"
+        v-for="post in state.user.posts"
         :key="post.id"
-        :username="user.username"
+        :username="state.user.username"
         :post="post"
         @favorite="toggleFavorite"
       />
@@ -22,47 +24,35 @@
 </template>
 
 <script>
-import PostItem from '@/components/Postitem'
-import CreatePostPanel from '@/components/CreatePostPanel'
+import { reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { users } from '../assets/users'
+import PostItem from '../components/Postitem'
+import CreatePostPanel from '../components/CreatePostPanel'
 
 export default {
   name: 'UserProfile',
   components: { CreatePostPanel, PostItem },
-  data() {
-    return {
+  setup() {
+    const route = useRoute();
+    const userId = computed(() => route.params.userId)
+console.log(userId.value);
+    const state = reactive({
       followers: 0,
-      user: {
-        id: 1,
-        username: '_AaaaaBbbbb',
-        firstName: 'Aaaaa',
-        lastName: 'Bbbbb',
-        email: 'aaaaabbbbb@gmail.com',
-        isAdmin: true,
-        posts: [
-          { id: 1, content: 'Here is first post.' },
-          { id: 2, content: 'Second post here we go.' }
-        ]
-      }
-    }
-  },
-  watch: {
-    followers(newValue, oldValue) {
-      if (oldValue < newValue) {
-        console.log(`${this.user.username} has gained a follower!`)
-      }
-    }
-  },
-  methods: {
-    addPost(post) {
-      this.user.posts.unshift({
-        id: this.user.posts.length + 1,
+      user: users[userId.value - 1] || users[1]
+    })
+
+    function addPost(post) {
+      state.user.posts.unshift({
+        id: state.user.posts.length + 1,
         content: post
       })
     }
-  },
-  mounted() {
-    console.log('Page mounted')
-    this.followUser()
+    return {
+      state,
+      addPost,
+      userId
+    }
   }
 }
 </script>
