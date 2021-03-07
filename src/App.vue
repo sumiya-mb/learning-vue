@@ -1,12 +1,27 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <nav>
+    <router-link to="/">
+      <div class="navigation__logo">Twitter clone</div>
+    </router-link>
+    <div class="navigation__user" v-if="user">
+      {{ user.username }}
+    </div>
+  </nav>
+  <router-view />
 </template>
 
-
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      user: {
+        username: '_ThisIsFake'
+      }
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
