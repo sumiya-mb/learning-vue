@@ -28,7 +28,6 @@ export default {
 <style lang='scss' scoped>
 .home {
   padding: 50px 5%;
-
   .users-list {
     display: flex;
     flex-direction: column;

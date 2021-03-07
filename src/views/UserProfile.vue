@@ -29,7 +29,6 @@ import { useRoute } from 'vue-router';
 import { users } from '../assets/users'
 import PostItem from '../components/Postitem'
 import CreatePostPanel from '../components/CreatePostPanel'
-
 export default {
   name: 'UserProfile',
   components: { CreatePostPanel, PostItem },
@@ -41,7 +40,6 @@ console.log(userId.value);
       followers: 0,
       user: users[userId.value - 1] || users[1]
     })
-
     function addPost(post) {
       state.user.posts.unshift({
         id: state.user.posts.length + 1,
@@ -63,7 +61,6 @@ console.log(userId.value);
   grid-template-columns: 1fr 3fr;
   grid-gap: 50px;
   padding: 50px 5%;
-
   .user-profile__user-panel {
     display: flex;
     flex-direction: column;
@@ -72,11 +69,9 @@ console.log(userId.value);
     border-radius: 5px;
     border: 1px solid #dfe3e8;
     margin-bottom: auto;
-
     h1 {
       margin: 0;
     }
-
     .user-profile__admin-badge {
       background: rebeccapurple;
       color: white;
@@ -86,7 +81,6 @@ console.log(userId.value);
       font-weight: bold;
     }
   }
-
   .user-profile__posts-wrapper {
     display: grid;
     grid-gap: 10px;
@@ -94,9 +88,3 @@ console.log(userId.value);
   }
 }
 </style>
-
-
-
-
-
-

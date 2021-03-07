@@ -11,13 +11,16 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
   name: 'App',
-  data() {
+  setup() {
+    const store = useStore()
+    const user = computed(() => store.state.user)
+    console.log(user.value);
     return {
-      user: {
-        username: '_ThisIsFake'
-      }
+      user
     }
   }
 }
@@ -28,19 +31,20 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;
+    background-color: deeppink;
+    color: white;
+    .navigation__logo {
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .navigation__user {
+      font-weight: bold;
     }
   }
 }
