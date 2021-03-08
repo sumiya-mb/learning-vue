@@ -17,8 +17,7 @@ export default {
   name: 'App',
   setup() {
     const store = useStore()
-    const user = computed(() => store.state.user)
-    console.log(user.value);
+    const user = computed(() => store.state.User.user);
     return {
       user
     }
